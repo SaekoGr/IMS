@@ -16,3 +16,9 @@ Francúzi 16+7=23
 PRIEMER: 37.2
 
 38 minút https://transportgeography.org/?page_id=5219
+průměry mezi zastávakami tramvaji zdroj http://www.jrbrno.cz/L84_S1 (linka - průměr) : 
+1 - 1.4min; 2 - 1.5min; 3- 1.37min; 4 - 1.39min; 5 - 1.58min;
+6 - 1.4min; 8 - 1.25min; 25 - 1.27min; 84 - 1.41 min;
+1 - 36z; 2 - 24z; 3 - 24z; 4 - 26z; 5 - 15z;
+6 - 23z; 8 - 26z; 25 - 37z; 84- 44z
+
