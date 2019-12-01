@@ -51,13 +51,31 @@ Cílem této Simulační studie je sestavit model středně velkého evropske m�
 \section{Rozbor tématu a fakta}
 Uhlíková stopa se stala v poslední době fenoménu, který pohltil téměř celý svět. Téměř v každém koutu světa se konají summity na téma znečištění ovzduší automobily. V Evropě tvoří 30 \% z celkové produkce CO2 doprava a transport zboží na základě průzkumu Evropského parlamentu z roku 2017 \cite {co2_eu}. Evropská Unie se podílí produkci oxidu uhličitého 13 \% z celého světa. Paradoxně nejvýrazněji bojovníci je Greta Thunberg pocházející ze Švédska, která šokovala svět při svém projevu. Apelovala na občany všech zemí, že by Melia přestat jezdit automobily, neboť osobní vozidla způsobují asi 60.7 \% CO2 emisí z celkového množství emisí, které produkuje doprava \cite {co2_eu}, což je asi 12 \% z celkového množství emisí, které produkuje Evropa \cite {co2_eu_law}.
 
+V rámci fakt je třeba si taktéž přiblížit princip spalovacího motoru. Spalovací motor je druh stroje, který přeměňuje chemickou energii obsaženou v palivě především na teplo a mechanickou energii. Teplo tvoří asi 75 \% přeměněné energie a je v automobilovém průmyslu využito jen pro vytápění prostoru pro cestující. Je to tedy nechtěný produkt. Zbylých 25 \% je přeměněno na mechanickou práci. Hlavní částí motoru je válec, píst, ventily umístěné v hlavě motoru a kliková hřídel. Všechny ze zmíněných součástí tvoří tzv. spalovací prostor.
+Píst se pohybuje ve válci nahoru a dolů v posuvném pohybu. V případě, že je píst ve válci úplně nahoře, tak tuto událost nazýváme horní úvrať, pokud je píst úplně dole tak dolní úvrať. Při posuvném pohybu pístu se zároveň otáčí kliková hřídel, která převádí posuvný pohyb na otáčivý. 
+
+Budeme uvažovat obyčejný atmosférický motor, který nemá žádné pomocné součásti typu turbodmychadlo a kompresor. 
+Fáze:
+\begin{enumerate}
+    \item Píst nachází v horní úvrati a posunuje se směrem dolů a nasává vzduch otevřeným sacím ventilem.
+    \item Píst pohybuje směrem nahoru, stlačuje nasátý vzduch v spalovacím prostoru a způsobuje jeho zahřátí.
+    \item Těsně před horní úvratí se pomocí vstřikovače stříkne do spalovacího prostoru přesně odměřená dávka paliva, která se vznítí a tlačí píst dolů. Zde dochází k velmi patrné ztrátě účinnosti, jelikož palivo vybuchuje ještě ve fázi, kdy píst jde nahoru.
+    \item Píst je setrvačností tlačen nahoru a probíhá výfuk. Výfukový ventil je otevřen a ven ze spalovacího prostoru jsou tlačeny spaliny.
+\end{enumerate}
+
+Spaliny jsou z valné většiny tvořeny oxidem uhličitým a různými prvky/sloučeninami, jež jsou produkty hoření paliva.
+
 Evropská unie se snaží redukovat produkci CO2 emisí nových modelů osobních automobilů pod hranici 130 g/Km; v některých zemích se již podařilo snížit tento průměr na 120.4 g/Km. Emise CO2 má tedy při různých modelech osobních automobilů různou odchylku. Musíme brát v úvahu, že tento nový zákon se týká nových osobních automobilů, zatímco lidé stále využívají osobní automobily, které byly vyrobeny více než 10 let dozadu. Můžeme se proto domnívat, že skutečná průměrná produkce CO2 se pohybuje okolo 135 g/Km \cite{ultimatespecs.com}.
 
-
+Mestská hromadná doprava taktiež produkuje CO2 emisie, avšak dokáže prepraviť niekoľkonásobne viac osôb. V tejto štúdii sa zaoberáme dopravnými prostriedkami na prepravu osôb v meste, ktoré produkujú emisie CO2 pomocou spalovacieho motora. Mnohé mestá disponujú rozsiahlou sieťou mestskej hromadnej dopravy, ktorá sa skladá z tramvají, električiek a autobusov. Autobusy disponujú spalovacím motorom, a na základe prieskumu vyprodukujú asi 822 g/Km s miernymi odchýlkami rôznych modelov \cite{bust_travel}. 
 
 
 
 \section{Koncepce modelu}
+
+\subsection{Popis konceptuálního modelu}
+Cieľom modelu, viz PETRIHO SIEŤ,  je simulovať bežný pracovný deň v stredne veľkom európskom meste, a ako rozhodnutia jednotlivcov ovplyvňujú celkovú dennú produkciu CO2 emisií. Vstupným parametrom modelu je počet osôb, ktoré majú byť prepravené vrámci jedného dňa. Pre zjednodušenie modelu predpokladáme, že vrámci tohto jedného dňa musia byť úspešne prepravené všetky osoby. V Európskej únii vlastní asi 60\% obyvateľstva aspoň 1 vozidlo, preto predpokladáme, že každá osoba má 60\% šancu, že vlastní aspoň jedno vozidlo \cite{rss}. Osoby, ktoré auto nevlastnia idú hneď na zastávku autobusu MHD. Predpokladáme, že soby, ktoré auto vlastnia sa rozhodnú použiť MHD s pravdepodobnosťou približne 25\% na základe prieskumu. Tento údaj vznikol spriemerovaním hodnôt európskych krajín, kde respondenti povedali, že využijú MHD 1 a viac krát za týždeň. Výsledný údaj bol 37.2 \%, musíme však brať do úvahy, že tento údaj sa vzťahuje na všetkých občanov, takže odhadujeme, že asi 25\% ľudí, čo vlastnia osobný automobil využívajú MHD. Toto percento je použité iba na verifikáciu, keďže jeho hodnota je vstupným parametrom modelu, pretože chceme byť schopní simulovať situáciu, kedy sa MHD stane veľmi žiadúca (napríklad rapídne zníženie ceny) a toto \% sa bude vtedy meniť.
+
 \section{Architektúra simulačního modelu}
 \section{Experimenty}
 \section{Závěr}
