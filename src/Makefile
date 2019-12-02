@@ -7,5 +7,7 @@ ims:
 	cd cmake-build-release && cmake -D CMAKE_BUILD_TYPE=Release ..
 	cmake --build cmake-build-release
 
-all:
+all: ims
+	./cmake-build-release/ims
+	
 	
