@@ -17,10 +17,10 @@
 #include "StartDay.hpp"
 
 #define DEFAULT_CARS 18
-#define DEFAULT_BUSES 42
+#define DEFAULT_BUSES 2
 #define DEFAULT_PEOPLE 25
 #define DEFAULT_RATIO 25
-#define CAR_EMISSION 600
+
 
 // the 24 hour-cycle
 #define DAY_START 0

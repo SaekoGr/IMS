@@ -15,7 +15,8 @@ void StartDay::Behavior(){
     if(!this->buses_generated){
         printf("\nGenereting %llu buses\n\n", this->buses);
         calculateHasCarRatio(this->people, this->cars);
-        //(new Person())->calculateHasCarRatio(this->people, this->cars);
+        //Store* store_of_buses = Store("Bus store", buses);
+        activateBusGenerator(this->buses);
         this->buses_generated = true;
     }
     // generates population of n people

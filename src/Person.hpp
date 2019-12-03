@@ -10,10 +10,12 @@
 #define CAR_EMISSION 600
 
 void calculateHasCarRatio(unsigned long long int people, unsigned long long int cars);
+void activateBusGenerator(unsigned long long int buses);
 
 static double hasCarRatio;
 
 static double availableCars;
+
 
 class Person : public Process{
     public:
@@ -34,13 +36,27 @@ class Person : public Process{
 
 class Bus : public Process{
     public:
-        void createBusStore(unsigned long long int buses);
+        
 
-        Bus(unsigned long long int buses);
+        Bus(Store* busStore);
 
         void Behavior();
 
-        Store* AllBuses;
+        Store* busStore;
+
+        
+};
+
+class BusGenerator: public Process{
+    public:
+
+        BusGenerator(unsigned long long int buses);
+
+        void Behavior();
+
+        Store* busStore;
+
+        unsigned long long int buses;
 };
 
 #endif
