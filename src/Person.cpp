@@ -4,7 +4,12 @@ using namespace std;
 
 static Store* AllBuses;
 
-Person::Person(){
+Facility Stop;
+Queue Q;
+//Queue Q[BUS_STOPS];
+
+Person::Person(unsigned long long int personalNumber){
+    this->personalNumber = personalNumber;
     this->needTransportTime = Time;
 }
 
@@ -22,18 +27,24 @@ void Person::Behavior(){
             this->rideCar();
             this->carEmission = this->distanceTravelled * CAR_EMISSION;
             //printf("I travelled %d km with my car and produced %.2f kg of CO2 emmissions\n", this->distanceTravelled, (this->carEmission/1000.0));
-        }
-        else{
-            //printf("I have car and I will not use it\n");
-            //goto use_public_transport;
+            // succesfully traveled the distance
+            return;
         }
     } // does not own a car
-    else{
-        //printf("I do not have car at all\n");
+    
+    // either has car and uses public transport or doesn't own a car
+    this->stopNum = generateBusStopNumber();
 
-        //use_public_transport:
-    }
-    //printf("\n");
+    //printf("Standing at the queue: ID %d, STOP %d\n", this->personalNumber, this->stopNum);
+    Q.Insert(this);
+    Passivate();
+
+    //printf("Nastúpil som ID %d\n", this->personalNumber);
+}
+
+unsigned int generateBusStopNumber(){
+    int rnd = rand();
+    return (rnd % BUS_STOPS);
 }
 
 void Person::rideCar(){
@@ -73,29 +84,71 @@ void calculateHasCarRatio(unsigned long long int people, unsigned long long int 
 
 Bus::Bus(){
     this->capacity = BUS_CAPACITY;
-    //printf("Store has in bus %lu\n", busStore->Capacity());
-    //this->busStore = busStore;
-    
+    this->on_board = 0;
 }
 
 void Bus::Behavior(){
+    int to_disembark;
     // bus depart from depo
     Enter(*AllBuses, 1);
-    printf("I am bus generated at %f\n", Time);
+    printf("\n\nI am bus generated at %f\n", Time);
     
-
+    Wait(500);
+    
+    
     for(int i = 1; i < BUS_STOPS; i++){
-        // Simulates movement to the i-th bus stop
-        //Wait()
+        // last stop before going to depo
+        if(i == BUS_STOPS){
+            
+            break;
+        }
 
+        printf("I come to stop NO. %d\n", i);
+        
+        printf("DISEMBARKING\n");
+        to_disembark = disembarkingPeople(this->on_board);
+        printf("%d people are disembarking\n", to_disembark);
+        this->on_board = this->on_board - to_disembark; 
 
+        printf("BOARDING NOW\n");
+        // passangers can board
+        boarding:
+        //printf("Length of Q is %d\n", Q.Length());
+
+        // check for more passangers that fit into the bus
+        if(!Q.Empty() && this->capacity > this->on_board){
+            // somebody is getting on
+            Wait(5);
+            this->on_board++;
+            // he got on succesfully
+            Entity *tmp = Q.GetFirst();
+            tmp->Activate();
+            goto boarding;
+        }
+        printf("===============\n");
     }
-    //printf("AllBus je je to %d v buse\n", AllBuses->Capacity());
+   
+    printf("LAST STOP: EVERYONE DISEMBARK\n");
+    this->on_board = 0;
+
+    printf("I have %d people, bus is leaving to depo\n", this->on_board);
+    // Simulates movement to the i-th bus stop
+    //Wait()
+
+
     
-    //Enter(*AllBuses, 1);
-    
-    //printf("I am bus finish my ride at %f\n", Time);
+    Wait(500);
+
+    printf("I am bus finishing my ride at %f\n\n\n", Time);
     Leave(*AllBuses, 1);
+}
+
+int disembarkingPeople(unsigned int onBoard){
+    if(onBoard == 0){
+        return 0;
+    }
+    int rnd = rand() % onBoard;
+    return rnd;
 }
 
 void activateBusGenerator(unsigned long long int buses){
@@ -117,13 +170,13 @@ BusGenerator::BusGenerator(unsigned long long int buses){
 void BusGenerator::Behavior(){
     
     
-    printf("Used %d\n", AllBuses->Used());
-    printf("Free %d\n", AllBuses->Free());
+    //printf("Used %d\n", AllBuses->Used());
+    //printf("Free %d\n", AllBuses->Free());
     //printf("AllBus je je to %d\n", AllBuses->Capacity());
 
         //printf("Idem generovať autobus\n");
     (new Bus())->Activate();
-    Activate(Time + 10000);
+    Activate(Time + 15000);
         
     
     

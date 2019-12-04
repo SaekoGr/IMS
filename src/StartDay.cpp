@@ -21,7 +21,7 @@ void StartDay::Behavior(){
     }
     // generates population of n people
     if(this->people > 0){
-        (new Person())->Activate();
+        (new Person(this->people))->Activate();
         //printf("Generating %llu. th person\n", this->people);
         // new person appears every 60 seconds
         Activate(Time + Exponential(30));
