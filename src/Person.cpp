@@ -5,7 +5,7 @@ using namespace std;
 static Store* AllBuses;
 
 Facility Stop;
-Queue Q;
+Queue Q[BUS_STOPS];
 //Queue Q[BUS_STOPS];
 
 Person::Person(unsigned long long int personalNumber){
@@ -36,7 +36,7 @@ void Person::Behavior(){
     this->stopNum = generateBusStopNumber();
 
     //printf("Standing at the queue: ID %d, STOP %d\n", this->personalNumber, this->stopNum);
-    Q.Insert(this);
+    Q[this->stopNum].Insert(this);
     Passivate();
 
     //printf("Nastúpil som ID %d\n", this->personalNumber);
@@ -98,12 +98,8 @@ void Bus::Behavior(){
     
     for(int i = 1; i < BUS_STOPS; i++){
         // last stop before going to depo
-        if(i == BUS_STOPS){
-            
-            break;
-        }
-
         printf("I come to stop NO. %d\n", i);
+        printf("Length of Q[%d] is %d\n", i, Q[i].Length());
         
         printf("DISEMBARKING\n");
         to_disembark = disembarkingPeople(this->on_board);
@@ -113,18 +109,19 @@ void Bus::Behavior(){
         printf("BOARDING NOW\n");
         // passangers can board
         boarding:
-        //printf("Length of Q is %d\n", Q.Length());
+        
 
         // check for more passangers that fit into the bus
-        if(!Q.Empty() && this->capacity > this->on_board){
+        if(!Q[i].Empty() && this->capacity > this->on_board){
             // somebody is getting on
             Wait(5);
             this->on_board++;
             // he got on succesfully
-            Entity *tmp = Q.GetFirst();
+            Entity *tmp = Q[i].GetFirst();
             tmp->Activate();
             goto boarding;
         }
+        printf("There are currently %d people onborad\n", this->on_board);
         printf("===============\n");
     }
    
