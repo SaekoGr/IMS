@@ -8,6 +8,8 @@
 #define MAX_DISTANCE 60
 #define RIDING_CAR 0.90
 #define CAR_EMISSION 600
+#define BUS_CAPACITY 7
+#define BUS_STOPS 3
 
 void calculateHasCarRatio(unsigned long long int people, unsigned long long int cars);
 void activateBusGenerator(unsigned long long int buses);
@@ -38,25 +40,27 @@ class Bus : public Process{
     public:
         
 
-        Bus(Store* busStore);
+        Bus();
 
         void Behavior();
 
-        Store* busStore;
+    private:
+        int capacity;
 
         
 };
 
-class BusGenerator: public Process{
+class BusGenerator: public Event{
     public:
 
         BusGenerator(unsigned long long int buses);
 
         void Behavior();
 
-        Store* busStore;
-
         unsigned long long int buses;
+
+    private:
+        Store* busStore;
 };
 
 #endif

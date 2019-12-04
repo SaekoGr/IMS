@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Store* AllBuses;
+static Store* AllBuses;
 
 Person::Person(){
     this->needTransportTime = Time;
@@ -71,51 +71,61 @@ void calculateHasCarRatio(unsigned long long int people, unsigned long long int 
     printf("%lf\n", hasCarRatio);
 }
 
-Bus::Bus(Store* busStore){
-    this->busStore = busStore;
+Bus::Bus(){
+    this->capacity = BUS_CAPACITY;
+    //printf("Store has in bus %lu\n", busStore->Capacity());
+    //this->busStore = busStore;
     
 }
 
 void Bus::Behavior(){
-    //getBusStore();
+    // bus depart from depo
+    Enter(*AllBuses, 1);
     printf("I am bus generated at %f\n", Time);
-    //printf("Store has %d\n", AllBuses->Capacity());
+    
+
+    for(int i = 1; i < BUS_STOPS; i++){
+        // Simulates movement to the i-th bus stop
+        //Wait()
+
+
+    }
+    //printf("AllBus je je to %d v buse\n", AllBuses->Capacity());
+    
     //Enter(*AllBuses, 1);
     
-    //Wait(500);
     //printf("I am bus finish my ride at %f\n", Time);
-    //Leave(*AllBuses);
+    Leave(*AllBuses, 1);
 }
-
-void getBusStore(){
-    printf("Tu to je zas %d\n", AllBuses->Capacity());
-}
-
 
 void activateBusGenerator(unsigned long long int buses){
-    //printf("Teraz to je %d\n", buses->Capacity());
+    // if there are no buses, generator is not needed
+    if(buses == 0){
+        return;
+    }
+    // create all buses
+    AllBuses = new Store("Bus store", buses);
+    // activate the bus generator
     (new BusGenerator(buses))->Activate();
 }
 
 BusGenerator::BusGenerator(unsigned long long int buses){
+    
     this->buses = buses;
 }
 
 void BusGenerator::Behavior(){
-    this->busStore = Store("Bus store", buses);
-    printf("Aktivoval som sa a teraz je to %d\n", this->busStore->Capacity());
+    
+    
+    printf("Used %d\n", AllBuses->Used());
+    printf("Free %d\n", AllBuses->Free());
+    //printf("AllBus je je to %d\n", AllBuses->Capacity());
 
-
-    while(Time < 86400){
-        Enter(*(this->busStore), 1);
+        //printf("Idem generovať autobus\n");
+    (new Bus())->Activate();
+    Activate(Time + 10000);
         
-        printf("Idem generovať autobus\n");
-        (new Bus(this->busStore))->Activate();
-        Wait(10000);
-        
-        Leave(*(this->busStore), 1);
-
-    }
+    
     
     //printf("Generating %llu. th person\n", this->people);
     // new person appears every 60 seconds
