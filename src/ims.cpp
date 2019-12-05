@@ -7,7 +7,6 @@
  * Filip Weigel (xweige01)
  * 
  */
-
 #include <stdio.h>
 #include <ctype.h>
 #include <simlib.h>
@@ -15,16 +14,14 @@
 #include <getopt.h>
 #include <string.h>
 #include "StartDay.hpp"
-
-#define DEFAULT_CARS 18
-#define DEFAULT_BUSES 2
-#define DEFAULT_PEOPLE 25
-#define DEFAULT_RATIO 25
+#include "Person.hpp"
 
 
-// the 24 hour-cycle
-#define DAY_START 0
-#define DAY_END 86400
+
+#define DEFAULT_CARS 0
+#define DEFAULT_BUSES 100
+#define DEFAULT_PEOPLE 10000
+#define DEFAULT_RATIO 100
 
 using namespace std;
 
@@ -122,12 +119,12 @@ int main(int argc, char *argv[]){
     printf("\n===================");
     printf("\nSTART OF SIMULATION\n");
     printf("===================\n\n");
-    printf("Arguments: %llu buses, %llu people, %llu cars, %.2f ratio\n", buses, people, cars, ratio);
+    printf("Running with arguments: %llu buses, %llu people, %llu cars, %.2f ratio\n", buses, people, cars, ratio);
     
     Init(DAY_START, DAY_END);
     (new StartDay(buses, people, cars, ratio))->Activate();
     Run();
-
+    SIMLIB_statistics.Output();
 
     printf("\n===================");
     printf("\nEND OF SIMULATION\n");

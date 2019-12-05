@@ -3,22 +3,31 @@
 
 #include <simlib.h>
 #include <stdio.h>
+#include <iostream>
 
 #define USES_PUBLIC_TRANSPORT 0.25
-#define MAX_DISTANCE 60
+#define MAX_DISTANCE 42
 #define RIDING_CAR 0.90
 #define CAR_EMISSION 135
-#define BUS_CAPACITY 7
-#define BUS_STOPS 3
+#define BUS_EMISSION 880
+#define BUS_CAPACITY 46
+#define BUS_STOPS 28
 
-void calculateHasCarRatio(unsigned long long int people, unsigned long long int cars);
+
+// the 24 hour-cycle
+#define DAY_START 0
+#define DAY_END 86400
+
+
+void calculateHasCarRatio(unsigned long long int people, unsigned long long int cars, float ratio);
+void calculateBusInterval(unsigned long long int buses);
 void activateBusGenerator(unsigned long long int buses);
 unsigned int generateBusStopNumber();
 int disembarkingPeople(unsigned int onBoard);
 
 static double hasCarRatio;
-
 static double availableCars;
+static float ratio;
 
 
 class Person : public Process{
@@ -57,10 +66,15 @@ class Bus : public Process{
 
         int on_board;
 
-        
+        double busEmission = 0;
+
+        double distanceTravelled = 0;
+
+        unsigned long long int transportedPassangers = 0;
+
 };
 
-class BusGenerator: public Event{
+class BusGenerator: public Process{
     public:
 
         BusGenerator(unsigned long long int buses);
