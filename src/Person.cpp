@@ -3,6 +3,10 @@
 using namespace std;
 
 static Store* AllBuses;
+double allCarEmission = 0;
+double allBusEmission = 0;
+unsigned long long int wantToUseBus = 0;
+unsigned long long int gotToUseBus = 0;
 
 Facility Stop;
 Queue Q[BUS_STOPS];
@@ -21,19 +25,14 @@ void Person::Behavior(){
     // chance of owning a car
     
     // owns a car
-    // TODO actually submit the cars from the amount... or?
     if((Random() < hasCarRatio) && (availableCars > 0)){
-        //printf("I have car at %lf time\n", this->needTransportTime);
         availableCars--;
         // has car and uses it
         if(Random() > ratio){
-            //printf("I have car and I will use it\n");
             this->rideCar();
             this->carEmission = this->distanceTravelled * CAR_EMISSION;
+            allCarEmission += this->carEmission; 
             //printf("I travelled %d km with my car and produced %.2f kg of CO2 emmissions\n", this->distanceTravelled, (this->carEmission/1000.0));
-            // succesfully traveled the distance
-            //all_people++;
-            cnt++;
             return;
         }
     } // does not own a car
@@ -44,11 +43,10 @@ void Person::Behavior(){
     // going to the bus stop
     Wait(Normal(300, 60));
 
+    wantToUseBus++;
     //printf("Standing at the queue: ID %d, STOP %d\n", this->personalNumber, this->stopNum);
     Q[this->stopNum].Insert(this);
     Passivate();
-
-    //printf("Nastúpil som ID %d\n", this->personalNumber);
 }
 
 unsigned int generateBusStopNumber(){
@@ -71,6 +69,15 @@ void Person::rideCar(){
     
 }
 
+void output_stats(){
+    printf("\nTOTAL EMISSIONS\n");
+    printf("CARS: %f kg\n", allCarEmission/1000.0);
+    printf("BUSES: %f kg\n", allBusEmission/1000.0);
+    printf("=================\n");
+    printf("TOTAL BUS PASSENGERS\n");
+    printf("WANTED TO USE THE BUS %d\n", wantToUseBus);
+    printf("ACTUALLY USED THE BUS %d\n\n", gotToUseBus);
+}
 
 void calculateHasCarRatio(unsigned long long int people, unsigned long long int cars, float ratio){
     availableCars = cars;
@@ -89,7 +96,6 @@ void calculateHasCarRatio(unsigned long long int people, unsigned long long int 
             hasCarRatio = temporaryRatio;
         }
     }
-    //printf("%lf\n", hasCarRatio);
 }
 
 Bus::Bus(){
@@ -99,24 +105,18 @@ Bus::Bus(){
 }
 
 void Bus::Behavior(){
-    //printf("%d\n", cnt++);
     int to_disembark;
     double start_time = Time;
-    //printf("\n\nFree %d\tUsed %d\n\n", AllBuses->Free(), AllBuses->Used());
-    //printf("\n\nI am bus generated at %f\n", Time);
     
     // bus goes to the first stop from the depot
     Wait(Normal(500, 100));
     this->distanceTravelled += Normal(2, 0.6);
     
     for(int i = 1; i < BUS_STOPS; i++){
-        // last stop before going to depo
-        //printf("I come to stop NO. %d\n", i);
-        //printf("Length of Q[%d] is %d\n", i, Q[i].Length());
+        // last stop before going to depot
         
         //printf("DISEMBARKING\n");
         to_disembark = disembarkingPeople(this->on_board);
-        //printf("%d people are disembarking\n", to_disembark);
         // people are disembarrking
         for(int j = 0; j < to_disembark; j++){
             // people are getting off
@@ -139,8 +139,7 @@ void Bus::Behavior(){
             Entity *tmp = Q[i].GetFirst();
             Wait(Normal(2.5, 0.5));
             tmp->Activate();
-            all_people++;
-            cnt++;
+            gotToUseBus++;
             //cout << all_people << "\n";
             goto boarding;
         }
@@ -167,7 +166,8 @@ void Bus::Behavior(){
     double total_time = Time - start_time;
     Leave(*AllBuses, 1);
     this->busEmission = this->distanceTravelled * BUS_EMISSION;
-    printf("Bus finishing my ride at %f, transported %d people, %f, produced %.2f of kg emissions\n\n\n", Time, this->transportedPassangers, this->distanceTravelled,(this->busEmission/1000.0));
+    allBusEmission += this->busEmission;
+    //printf("Bus finishing my ride at %f, transported %d people, %f, produced %.2f of kg emissions\n\n\n", Time, this->transportedPassangers, this->distanceTravelled,(this->busEmission/1000.0));
     //all_people += this->transportedPassangers;
 }
 

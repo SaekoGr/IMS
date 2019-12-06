@@ -3,7 +3,7 @@
 
 #include <simlib.h>
 #include <stdio.h>
-
+    
 
 
 void calculate_req_interval(unsigned long long int people);
@@ -21,6 +21,8 @@ class StartDay : public Event
         unsigned long long int cars;
         float ratio;
         
+        Stat* carEmission;
+
         bool buses_generated = false;
 };
 

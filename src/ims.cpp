@@ -18,9 +18,9 @@
 
 
 
-#define DEFAULT_CARS 0
-#define DEFAULT_BUSES 100
-#define DEFAULT_PEOPLE 10000
+#define DEFAULT_CARS 15000
+#define DEFAULT_BUSES 1300
+#define DEFAULT_PEOPLE 25000
 #define DEFAULT_RATIO 100
 
 using namespace std;
@@ -124,6 +124,7 @@ int main(int argc, char *argv[]){
     Init(DAY_START, DAY_END);
     (new StartDay(buses, people, cars, ratio))->Activate();
     Run();
+    output_stats();
     SIMLIB_statistics.Output();
 
     printf("\n===================");

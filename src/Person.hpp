@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <iostream>
 
-#define USES_PUBLIC_TRANSPORT 0.25
 #define MAX_DISTANCE 42
 #define RIDING_CAR 0.90
 #define CAR_EMISSION 135
@@ -18,7 +17,7 @@
 #define DAY_START 0
 #define DAY_END 86400
 
-
+void output_stats();
 void calculateHasCarRatio(unsigned long long int people, unsigned long long int cars, float ratio);
 void calculateBusInterval(unsigned long long int buses);
 void activateBusGenerator(unsigned long long int buses);
