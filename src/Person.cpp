@@ -2,17 +2,24 @@
 
 using namespace std;
 
-static Store* AllBuses;
+Store* AllBuses;
 double allCarEmission = 0;
 double allBusEmission = 0;
 unsigned long long int wantToUseBus = 0;
 unsigned long long int gotToUseBus = 0;
 
+double carRatio;
 Facility Stop;
 Queue Q[BUS_STOPS];
 int cnt = 0;
-unsigned long long int all_people = 0;
+unsigned long long int usingCar = 0;
 double bus_interval;
+
+Stat* BusEmissions;
+Stat* CarEmissions;
+Stat* CarDistance;
+Stat* BusDistance;
+
 //Queue Q[BUS_STOPS];
 
 Person::Person(unsigned long long int personalNumber){
@@ -21,17 +28,19 @@ Person::Person(unsigned long long int personalNumber){
 }
 
 void Person::Behavior(){
-    
     // chance of owning a car
     
     // owns a car
     if((Random() < hasCarRatio) && (availableCars > 0)){
         availableCars--;
         // has car and uses it
-        if(Random() > ratio){
+        if(Random() > carRatio){
             this->rideCar();
-            this->carEmission = this->distanceTravelled * CAR_EMISSION;
+            this->carEmission = this->distanceTravelled * Normal(CAR_EMISSION, 5);
             allCarEmission += this->carEmission; 
+            (*CarEmissions)(this->carEmission);
+            (*CarDistance)(this->distanceTravelled);
+            usingCar++;
             //printf("I travelled %d km with my car and produced %.2f kg of CO2 emmissions\n", this->distanceTravelled, (this->carEmission/1000.0));
             return;
         }
@@ -63,31 +72,50 @@ void Person::rideCar(){
         }
         // average time for 1 km
         Wait(Normal(97,20));
-        this->distanceTravelled++;
+        this->distanceTravelled = this->distanceTravelled + Normal(1, 0.1);
         goto ride_again;
     }
     
 }
 
+void initialiaze_day(){
+    BusEmissions = new Stat("Emissions from bus\n");
+    CarEmissions = new Stat("Emissions from car\n");
+    CarDistance = new Stat("Distance travelled by car\n");
+    BusDistance = new Stat("Distance travelled by bus\n");
+}
+
 void output_stats(){
+    unsigned long long int leftAtBusStop = 0;
+
+    AllBuses->Output();
+    printf("\n");
+    BusEmissions->Output();
+    BusDistance->Output();
+    printf("\n");
+    CarEmissions->Output();
+    CarDistance->Output();
+    printf("\n");
     printf("\nTOTAL EMISSIONS\n");
     printf("CARS: %f kg\n", allCarEmission/1000.0);
     printf("BUSES: %f kg\n", allBusEmission/1000.0);
     printf("=================\n");
-    printf("TOTAL BUS PASSENGERS\n");
+    printf("PASSENGERS DISTRIBUTION\n");
+    printf("USED THE CAR %d\n", usingCar);
     printf("WANTED TO USE THE BUS %d\n", wantToUseBus);
-    printf("ACTUALLY USED THE BUS %d\n\n", gotToUseBus);
+    printf("ACTUALLY USED THE BUS %d\n", gotToUseBus);
 
-    printf("\nPEOPLE LEFT AT THE BUS STOPS\n");
+    
     for(int i = 0; i < BUS_STOPS; i++){
-        printf("BUS STOP %d : %d people\n", i, Q[i].Length());
+        leftAtBusStop += Q[i].Length();
     }
+    printf("PEOPLE LEFT AT ANY BUS STOPS: %d\n", leftAtBusStop);
     printf("\n");
 }
 
 void calculateHasCarRatio(unsigned long long int people, unsigned long long int cars, float ratio){
     availableCars = cars;
-    ratio = ratio;
+    carRatio = ratio;
 
     if(people == 0){
         hasCarRatio = 0.0;
@@ -171,7 +199,9 @@ void Bus::Behavior(){
 
     double total_time = Time - start_time;
     Leave(*AllBuses, 1);
-    this->busEmission = this->distanceTravelled * BUS_EMISSION;
+    this->busEmission = this->distanceTravelled * Normal(BUS_EMISSION, 10);
+    (*BusEmissions)(this->busEmission);
+    (*BusDistance)(this->distanceTravelled);
     allBusEmission += this->busEmission;
     //printf("Bus finishing my ride at %f, transported %d people, %f, produced %.2f of kg emissions\n\n\n", Time, this->transportedPassangers, this->distanceTravelled,(this->busEmission/1000.0));
     //all_people += this->transportedPassangers;

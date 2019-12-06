@@ -21,7 +21,7 @@
 #define DEFAULT_CARS 15000
 #define DEFAULT_BUSES 1300
 #define DEFAULT_PEOPLE 25000
-#define DEFAULT_RATIO 100
+#define DEFAULT_RATIO 50
 
 using namespace std;
 
@@ -116,11 +116,13 @@ int main(int argc, char *argv[]){
         }
     }
 
+    ratio = ratio/100;
     printf("\n===================");
     printf("\nSTART OF SIMULATION\n");
     printf("===================\n\n");
-    printf("Running with arguments: %llu buses, %llu people, %llu cars, %.2f ratio\n", buses, people, cars, ratio);
+    printf("ARGUMENTS: %llu BUSES, %llu PEOPLE, %llu CARS, %.2f RATIO\n\n", buses, people, cars, ratio);
     
+    initialiaze_day();
     Init(DAY_START, DAY_END);
     (new StartDay(buses, people, cars, ratio))->Activate();
     Run();

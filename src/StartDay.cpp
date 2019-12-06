@@ -10,8 +10,7 @@ StartDay::StartDay(unsigned long long int buses, unsigned long long int people, 
     this->buses = buses;
     this->cars = cars;
     this->ratio = ratio;
-
-
+    printf("Ratio is %f\n", this->ratio);
 }
 
 void calculate_req_interval(unsigned long long int people){

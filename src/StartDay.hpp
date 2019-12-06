@@ -21,7 +21,7 @@ class StartDay : public Event
         unsigned long long int cars;
         float ratio;
         
-        Stat* carEmission;
+
 
         bool buses_generated = false;
 };

@@ -18,6 +18,7 @@
 #define DAY_END 86400
 
 void output_stats();
+void initialiaze_day();
 void calculateHasCarRatio(unsigned long long int people, unsigned long long int cars, float ratio);
 void calculateBusInterval(unsigned long long int buses);
 void activateBusGenerator(unsigned long long int buses);
@@ -47,7 +48,7 @@ class Person : public Process{
 
         double needTransportTime;
 
-        unsigned int distanceTravelled = 0;
+        double distanceTravelled = 0;
 
         double carEmission = 0;
 };
