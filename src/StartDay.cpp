@@ -15,7 +15,7 @@ StartDay::StartDay(unsigned long long int buses, unsigned long long int people, 
 }
 
 void calculate_req_interval(unsigned long long int people){
-    reg_interval = ((double) (DAY_END - (10000))) / people;
+    reg_interval = ((double) (DAY_END - (10500))) / people;
 }
 
 void StartDay::Behavior(){

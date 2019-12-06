@@ -39,7 +39,7 @@ void Person::Behavior(){
     
     // either has car and uses public transport or doesn't own a car
     this->stopNum = generateBusStopNumber();
-
+    //printf("BUS STOP NUM %d\n", this->stopNum);
     // going to the bus stop
     Wait(Normal(300, 60));
 
@@ -51,7 +51,7 @@ void Person::Behavior(){
 
 unsigned int generateBusStopNumber(){
     int rnd = rand();
-    return (rnd % BUS_STOPS);
+    return (rnd % (BUS_STOPS));
 }
 
 void Person::rideCar(){
@@ -77,6 +77,12 @@ void output_stats(){
     printf("TOTAL BUS PASSENGERS\n");
     printf("WANTED TO USE THE BUS %d\n", wantToUseBus);
     printf("ACTUALLY USED THE BUS %d\n\n", gotToUseBus);
+
+    printf("\nPEOPLE LEFT AT THE BUS STOPS\n");
+    for(int i = 0; i < BUS_STOPS; i++){
+        printf("BUS STOP %d : %d people\n", i, Q[i].Length());
+    }
+    printf("\n");
 }
 
 void calculateHasCarRatio(unsigned long long int people, unsigned long long int cars, float ratio){
@@ -112,7 +118,7 @@ void Bus::Behavior(){
     Wait(Normal(500, 100));
     this->distanceTravelled += Normal(2, 0.6);
     
-    for(int i = 1; i < BUS_STOPS; i++){
+    for(int i = 0; i < BUS_STOPS; i++){
         // last stop before going to depot
         
         //printf("DISEMBARKING\n");
