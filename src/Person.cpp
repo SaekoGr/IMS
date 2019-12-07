@@ -19,6 +19,7 @@ Stat* BusEmissions;
 Stat* CarEmissions;
 Stat* CarDistance;
 Stat* BusDistance;
+Stat* BusEffectivity;
 
 //Queue Q[BUS_STOPS];
 
@@ -79,10 +80,11 @@ void Person::rideCar(){
 }
 
 void initialiaze_day(){
-    BusEmissions = new Stat("Emissions from bus\n");
-    CarEmissions = new Stat("Emissions from car\n");
-    CarDistance = new Stat("Distance travelled by car\n");
-    BusDistance = new Stat("Distance travelled by bus\n");
+    BusEmissions = new Stat("Emissions from bus in kg");
+    CarEmissions = new Stat("Emissions from car in kg");
+    CarDistance = new Stat("Distance travelled by car in km");
+    BusDistance = new Stat("Distance travelled by bus in km");
+    BusEffectivity = new Stat("Bus usage efecticity in %");
 }
 
 void output_stats(){
@@ -90,16 +92,45 @@ void output_stats(){
 
     AllBuses->Output();
     printf("\n");
-    BusEmissions->Output();
-    BusDistance->Output();
-    printf("\n");
     CarEmissions->Output();
     CarDistance->Output();
     printf("\n");
+    BusEmissions->Output();
+    BusDistance->Output();
+    BusEffectivity->Output();
+    printf("\n");
     printf("\nTOTAL EMISSIONS\n");
     printf("CARS: %f kg\n", allCarEmission/1000.0);
+    
+    
     printf("BUSES: %f kg\n", allBusEmission/1000.0);
-    printf("SUM: %f\n", (allBusEmission + allCarEmission)/1000);
+    
+
+    double allEmissions = allBusEmission + allCarEmission;
+    printf("SUM: %f kg\n", (allEmissions)/1000);
+
+    printf("\n");
+    if(usingCar > 0){
+        printf("CAR EMISSION PER PERSON THAT USED CAR %f kg\n", (allCarEmission/usingCar)/1000);
+    }
+    else{
+        printf("CAR EMISSION PER PERSON THAT USED CAR 0.0 kg\n");
+    }
+
+    if(gotToUseBus > 0){
+        printf("BUS EMISSION PER PERSON THAT USED BUS %f kg\n", (allBusEmission/gotToUseBus)/1000);
+    }
+    else{
+        printf("BUS EMISSION PER PERSON THAT USED BUS 0.0 kg\n");
+    }
+
+    if(usingCar + gotToUseBus > 0){
+        printf("ALL EMISSION PER PERSON %f kg\n", (allEmissions/(usingCar + gotToUseBus))/1000);
+    }
+    else{
+        printf("ALL EMISSION PER PERSON 0.0 kg\n");
+    }
+    printf("\n");
     printf("=================\n");
     printf("PASSENGERS DISTRIBUTION\n");
     printf("USED THE CAR %d\n", usingCar);
@@ -179,6 +210,7 @@ void Bus::Behavior(){
             goto boarding;
         }
 
+        
         Wait(Normal(84, 10));
         this->distanceTravelled += Normal(0.55, 0.1);
         //printf("There are currently %d people onborad\n", this->on_board);
@@ -203,7 +235,12 @@ void Bus::Behavior(){
     this->busEmission = this->distanceTravelled * Normal(BUS_EMISSION, 10);
     (*BusEmissions)(this->busEmission);
     (*BusDistance)(this->distanceTravelled);
+    //printf("TRANS: %d\tMAX: %d\n", this->transportedPassangers, BUS_CAPACITY*BUS_STOPS);
+    //printf("EFF U %f\n", (((double) this->transportedPassangers/((double) BUS_STOPS*BUS_CAPACITY))) * 100.0);
+    double busEff = (((double) this->transportedPassangers/((double) BUS_STOPS*BUS_CAPACITY))) * 100.0;
+    (*BusEffectivity)(busEff);
     allBusEmission += this->busEmission;
+    
     //printf("Bus finishing my ride at %f, transported %d people, %f, produced %.2f of kg emissions\n\n\n", Time, this->transportedPassangers, this->distanceTravelled,(this->busEmission/1000.0));
     //all_people += this->transportedPassangers;
 }

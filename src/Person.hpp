@@ -9,7 +9,7 @@
 #define RIDING_CAR 0.90
 #define CAR_EMISSION 135
 #define BUS_EMISSION 880
-#define BUS_CAPACITY 46
+#define BUS_CAPACITY 42
 #define BUS_STOPS 28
 
 
