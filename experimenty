@@ -1,29 +1,44 @@
 Zdroj uvádí, že v roce 2015 se za rok v celé ČR vyprodukovalo celkem 6 634 769 tun CO2, které byly vyprodukovány individuální osobní dopravou a městskou hromadnou dopravou. Předpokládejme tedy, že se vyprodukuje 18 177 tun CO2 denně. Pokud toto číslo vydělíme počtem obyvatel, dostaneme číslo které vypovídá o znečistění jednoho obyvatele na den. Z výpočtu vyplývá, že každý obyvatel ČR zanechává uhlíkovou stopu rovnu 173,1 gramu. Průměrný počet zastávek autobusu: 28 zastávek, průměrná vzdálenost mezi zastávkami 550 metrů - vypočítáno na základě 10 linek MHD v Brně. Doba potřebná pro ujetí jednoho km: 97 sekund - Průměrná rychlost ve větším městě: 37km/h. //TODO for Sabule ----- tady musíš přesně popsat jak se generují ti lidé, jak jdou na zastávku, to ze jdou 5 minut a jeste popsat jak se pocita to auto -----Časový údaj, kdy se má generovat autobus je dán číslem 79 200 vyděleným počtem autobusů, abychom docílili stavu, že se vygenerují vždy všechny autobusové okruhy s dostatečnou časovou rezervou. Okruh je tedy vygenerován a autobus stojí v depu. Předpokládáme, že autobus je třeba nastartovat, natlakovat vzduchové okruhy a dojet na první zastávku. Pro zmíněný účel poslouží normální rozdělení se střední hodnotou 500 sekund. Autobus dojel na první zastávku a cestující nastupují. průmerný čas nastoupení jednoho cestujícího je dán normálním rozdělením se středem 2,5s. V modelu nastupuje jede pasažér po druhém. Model nereflektuje situaci, že reálný autobus má více dveří, proto je zmíněná hodnota nižší. Po nastoupení a vystoupení všech cestujících se autobus rozjede na další zastávku. Doba jízdy je dána normálním rozdělením se středem 84 sekund. Autobus poté jezdí v cyklu mezi zastávkami. Na konečné zastávce jsou všichni cestující nuceni vystoupit a autobus jede zpět do depa. Dle ujeté vzdálenosti model počítá kolik CO2 autobus/automobil vyprodukoval a číslo je přičteno k celkovému znečistění za den. Na konci simulace je vypsána statistika o celkovém znečistění.
 
 Experiment 1
-Předpokláváme normální pracovní den. Dále bude cestovat celkem 250 000 lidí. Autobusy ujedou celkem 1 300 okruhů a počet dostupných aut bude 30 000.
-Očekávané emise dle zdroje 		: 43 275kg den.
-Emise vyprodukovány autobusy	: kg den.
-Emise vyprodukovány automobily	: kg den.
-Celkové emise dle modelu 		: kg den.
+Předpokláváme normální pracovní den. Dále bude cestovat celkem 250 000 lidí. Autobusů bude k dispozici celkem 500 a počet dostupných aut bude 60 000. Pravděpodobnost na použití MHD, pokud obyvatel vlastní automobil je 25%.
+
+Očekávané emise dle zdroje 		: 	43 278kg den.
+Emise vyprodukovány autobusy	: 	 6 289kg den.
+Emise vyprodukovány automobily	: 	59 663kg den.
+Cestující v automobilu			: 	44 786  osob.
+Cestující v autobuse			:  205 214  osob.
+Celkové emise dle modelu 		: 	65 953kg den.
 
 Experiment 2
-Vstupní hodnoty budou stejné, s tím rozdílem, že provozovatel MHD snížil cenu jízdného. Více lidí tedy využívá městskou hromadnou dopravu. Pravděpodobnost, že obyvatel použije na svoji cestu MHD je zvýšena z původních xx % na xx %.
-Původní emise dle modelu		: kg den.
-Emise vyprodukovány autobusy	: kg den.
-Emise vyprodukovány automobily	: kg den.
-Celkové emise dle modelu 		: kg den.
+Provozovatel se rozhodl snížit cenu jízdného a zvýšil celkový počet autobusů na 500 . Více lidí tedy využívá městskou hromadnou dopravu. Pravděpodobnost, že obyvatel použije na svoji cestu MHD místo automobilu je zvýšena z původních 25 % na 50 %.
+
+Očekávané emise dle zdroje 		: 	43 278kg den.
+Původní emise dle modelu 		: 	65 953kg den.
+Emise vyprodukovány autobusy	: 	 7 827kg den.
+Emise vyprodukovány automobily	: 	39 559kg den.
+Cestující v automobilu			: 	29 700  osob.
+Cestující v autobuse			:  220 300  osob.
+Celkové emise dle experimentu	: 	47 387kg den.
 
 Experiment 3
-Bude cestovat opět 250 000 obyvatel. Předpokládáme extrémní situaci, že vyhláška města zakazuje vjezd osobních vozidel do města. Všichni obyvatelé jsou tedy nuceni využít MHD. Počet okruhů je zvýšen z 1 300 na x xxx.
-Původní emise dle modelu		: kg den.
-Emise vyprodukovány autobusy	: kg den.
-Emise vyprodukovány automobily	: 0 kg den.
-Celkové emise dle modelu 		: kg den.
+Opět předpokládáme 250 000 cestujících. Nastala extrémní situace. Vyhláška města zakazuje vjezd osobních vozidel do města. Všichni obyvatelé jsou tedy nuceni využít MHD. Dopravce zvýšil počet autobusů na 800.
+
+Očekávané emise dle zdroje 		: 	43 278kg den.
+Původní emise dle modelu 		: 	65 953kg den.
+Emise vyprodukovány autobusy	: 	13 744kg den.
+Emise vyprodukovány automobily	: 		 0kg den.
+Cestující v automobilu			: 		 0  osob.
+Cestující v autobuse			:  250 000  osob.
+Celkové emise dle experimentu	: 	13 744kg den.
 
 Experiment 4
-Ekonomické výsledky dopravce nejsou nejlepší, proto se rozhodne zvýšit cenu jízdného. Pro některé obyvatele se to stavá nepřijatelné a proto se více obyvatel rozhodne, že si pořídí vlastní automobil a nebude cestu realizovat pomocí MHD. 
-Původní emise dle modelu		: kg den.
-Emise vyprodukovány autobusy	: kg den.
-Emise vyprodukovány automobily	: kg den.
-Celkové emise dle modelu 		: kg den.
+Ekonomické výsledky dopravce nejsou nejlepší, proto se rozhodne dramaticky zvýšit cenu jízdného. Pro některé obyvatele se to stavá nepřijatelné a proto se více obyvatel rozhodne, že si pořídí vlastní automobil a nebude cestu realizovat pomocí MHD. Dostupných aut je 100 000 kusů, pravděpodobnost na využití MHD, pokud vlastní obyvatel automobil je stejná jako v prvním experimentu, 25%. 
+
+Očekávané emise dle zdroje 		: 	43 278kg den.
+Původní emise dle modelu 		: 	65 953kg den.
+Emise vyprodukovány autobusy	: 	 5 855kg den.
+Emise vyprodukovány automobily	: 	99 259kg den.
+Cestující v automobilu			: 	74 584  osob.
+Cestující v autobuse			:  175 416  osob.
+Celkové emise dle experimentu	:  105 114kg den.
