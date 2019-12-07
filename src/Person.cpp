@@ -99,6 +99,7 @@ void output_stats(){
     printf("\nTOTAL EMISSIONS\n");
     printf("CARS: %f kg\n", allCarEmission/1000.0);
     printf("BUSES: %f kg\n", allBusEmission/1000.0);
+    printf("SUM: %f\n", (allBusEmission + allCarEmission)/1000);
     printf("=================\n");
     printf("PASSENGERS DISTRIBUTION\n");
     printf("USED THE CAR %d\n", usingCar);
