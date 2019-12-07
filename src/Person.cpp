@@ -148,6 +148,7 @@ void output_stats(){
 void calculateHasCarRatio(unsigned long long int people, unsigned long long int cars, float ratio){
     availableCars = cars;
     carRatio = ratio;
+    
 
     if(people == 0){
         hasCarRatio = 0.0;
@@ -155,13 +156,15 @@ void calculateHasCarRatio(unsigned long long int people, unsigned long long int 
     else{
         double temporaryRatio;
         temporaryRatio = ((double) cars / (double) people);
-        if(temporaryRatio >= 100){
-            hasCarRatio = 100;
+        if(temporaryRatio >= 1.0){
+            hasCarRatio = 1.0;
         }
         else{
             hasCarRatio = temporaryRatio;
         }
     }
+
+    printf("Has car %f\n", hasCarRatio);
 }
 
 Bus::Bus(){
@@ -191,7 +194,6 @@ void Bus::Behavior(){
             
         }
 
-        //printf("BOARDING NOW\n");
         // passangers can board
         boarding:
         
@@ -217,14 +219,10 @@ void Bus::Behavior(){
         //printf("===============\n");
     }
    
-    //printf("LAST STOP: EVERYONE DISEMBARK\n");
     while(this->on_board > 0){
         Wait(Normal(2.5, 0.5));
         this->on_board--;
     }
-
-    // Simulates movement to the i-th bus stop
-    //Wait()
 
     // Going back to depo
     Wait(Normal(500, 100));
@@ -235,14 +233,9 @@ void Bus::Behavior(){
     this->busEmission = this->distanceTravelled * Normal(BUS_EMISSION, 10);
     (*BusEmissions)(this->busEmission);
     (*BusDistance)(this->distanceTravelled);
-    //printf("TRANS: %d\tMAX: %d\n", this->transportedPassangers, BUS_CAPACITY*BUS_STOPS);
-    //printf("EFF U %f\n", (((double) this->transportedPassangers/((double) BUS_STOPS*BUS_CAPACITY))) * 100.0);
     double busEff = (((double) this->transportedPassangers/((double) BUS_STOPS*BUS_CAPACITY))) * 100.0;
     (*BusEffectivity)(busEff);
     allBusEmission += this->busEmission;
-    
-    //printf("Bus finishing my ride at %f, transported %d people, %f, produced %.2f of kg emissions\n\n\n", Time, this->transportedPassangers, this->distanceTravelled,(this->busEmission/1000.0));
-    //all_people += this->transportedPassangers;
 }
 
 int disembarkingPeople(unsigned int onBoard){
@@ -255,6 +248,7 @@ int disembarkingPeople(unsigned int onBoard){
 
 void calculateBusInterval(unsigned long long int buses){
     bus_interval = (DAY_END - 7200)/buses;
+    printf("Bus interval %f\n", bus_interval);
 }
 
 void activateBusGenerator(unsigned long long int buses){

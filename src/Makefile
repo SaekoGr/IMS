@@ -8,7 +8,7 @@ ims:
 	cmake --build cmake-build-release
 
 all: ims
-	./cmake-build-release/ims --people 2500 --buses 100 --cars 200 --transportRatio 10
+	./cmake-build-release/ims
 
 exp: ims
 	./cmake-build-release/ims --people 250000 --buses 1300 --cars 30000 --transportRatio 15

@@ -32,7 +32,7 @@
 \Large
 \begin{tabular}{ll}
 \textbf{Sabína Gregušová} & \textbf{(xgregu02)} \\
-Filip Weigel & (xxxxxxxx)
+Filip Weigel & (xweige01)
 \end{tabular}
 \end{minipage}
 \end{titlepage}
@@ -67,17 +67,39 @@ Spaliny jsou z valné většiny tvořeny oxidem uhličitým a různými prvky/sl
 
 Evropská unie se snaží redukovat produkci CO2 emisí nových modelů osobních automobilů pod hranici 130 g/Km; v některých zemích se již podařilo snížit tento průměr na 120.4 g/Km. Emise CO2 má tedy při různých modelech osobních automobilů různou odchylku. Musíme brát v úvahu, že tento nový zákon se týká nových osobních automobilů, zatímco lidé stále využívají osobní automobily, které byly vyrobeny více než 10 let dozadu. Můžeme se proto domnívat, že skutečná průměrná produkce CO2 se pohybuje okolo 135 g/Km \cite{ultimatespecs.com}.
 
-Mestská hromadná doprava taktiež produkuje CO2 emisie, avšak dokáže prepraviť niekoľkonásobne viac osôb. V tejto štúdii sa zaoberáme dopravnými prostriedkami na prepravu osôb v meste, ktoré produkujú emisie CO2 pomocou spalovacieho motora. Mnohé mestá disponujú rozsiahlou sieťou mestskej hromadnej dopravy, ktorá sa skladá z tramvají, električiek a autobusov. Autobusy disponujú spalovacím motorom, a na základe prieskumu vyprodukujú asi 822 g/Km s miernymi odchýlkami rôznych modelov \cite{bust_travel}. 
+
+506/5000
+Městská hromadná doprava také produkuje CO2 emise, avšak dokáže přepravit několikanásobně více osob. V této studii se zabýváme dopravními prostředky pro přepravu osob ve městě, které produkují emise CO2 pomocí spalovacího motoru. Mnohá města disponují rozsáhlou sítí městské hromadné dopravy, která se skládá z tramvají, tramvají a autobusů. Autobusy disponují spalovacím motorem, a na základě průzkumu vyprodukují asi 822 g/Km s mírnými odchylkami různých modelů \cite {bust_travel}.
 
 
 
 \section{Koncepce modelu}
 
-\subsection{Popis konceptuálního modelu}
-Cieľom modelu, viz PETRIHO SIEŤ,  je simulovať bežný pracovný deň v stredne veľkom európskom meste, a ako rozhodnutia jednotlivcov ovplyvňujú celkovú dennú produkciu CO2 emisií. Vstupným parametrom modelu je počet osôb, ktoré majú byť prepravené vrámci jedného dňa. Pre zjednodušenie modelu predpokladáme, že vrámci tohto jedného dňa musia byť úspešne prepravené všetky osoby. V Európskej únii vlastní asi 60\% obyvateľstva aspoň 1 vozidlo, preto predpokladáme, že každá osoba má 60\% šancu, že vlastní aspoň jedno vozidlo \cite{rss}. Osoby, ktoré auto nevlastnia idú hneď na zastávku autobusu MHD. Predpokladáme, že soby, ktoré auto vlastnia sa rozhodnú použiť MHD s pravdepodobnosťou približne 25\% na základe prieskumu. Tento údaj vznikol spriemerovaním hodnôt európskych krajín, kde respondenti povedali, že využijú MHD 1 a viac krát za týždeň. Výsledný údaj bol 37.2 \%, musíme však brať do úvahy, že tento údaj sa vzťahuje na všetkých občanov, takže odhadujeme, že asi 25\% ľudí, čo vlastnia osobný automobil využívajú MHD. Toto percento je použité iba na verifikáciu, keďže jeho hodnota je vstupným parametrom modelu, pretože chceme byť schopní simulovať situáciu, kedy sa MHD stane veľmi žiadúca (napríklad rapídne zníženie ceny) a toto \% sa bude vtedy meniť.
+Cílem modelu, viz Petriho síť, je simulovat běžný pracovní den v středně velkém evropském městě, a jak rozhodnutí jednotlivců ovlivňují celkovou denní produkci CO2 emisí. Vstupním parametrem modelu je počet osob, které mají být přepraveny vrámci jednoho dne. Pro zjednodušení modelu předpokládáme, že vrámci tohoto jednoho dne musí být úspěšně přepraveny všechny osoby. V Evropské unii vlastní asi 60\% obyvatelstva alespoň 1 vozidlo, proto předpokládáme, že každá osoba má 60\% šanci, že vlastní alespoň jedno vozidlo \cite {rss}. 
+
+Osoby, které auto nevlastní jdou hned na zastávku autobusu MHD. Předpokládáme, že osoby, které auto vlastní se rozhodnou použít MHD s pravděpodobností přibližně 25\% na základě průzkumu. Tento údaj vznikl zprůměrováním hodnot evropských zemí, kde respondenti řekli, že využijí MHD 1 a více krát za týden. Výsledný údaj byl 37.2\%, musíme však brát v úvahu, že tento údaj se vztahuje na všechny občany, takže odhadujeme, že asi 25\% lidí, co vlastní osobní automobil využívají MHD. Toto procento je použito pouze na verifikaci, protože jeho hodnota je vstupním parametrem modelu, protože chceme být schopni simulovat situaci, kdy se MHD stane velmi žádoucí (například rapidně snížení ceny) a toto procento se bude tehdy měnit.
+
+
 
 \section{Architektúra simulačního modelu}
-\section{Experimenty}
+Zdroj uvádí, že v roce 2015 se za rok v celé ČR vyprodukovalo celkem 6 634 769 tun CO2, které byly vyprodukovány individuální osobní dopravou a městskou hromadnou dopravou. Předpokládejme tedy, že se vyprodukuje 18 177 tun CO2 denně. Pokud toto číslo vydělíme počtem obyvatel, dostaneme číslo které vypovídá o znečistění jednoho obyvatele na den. Z výpočtu vyplývá, že každý obyvatel ČR zanechává uhlíkovou stopu rovnu 173,1 gramu. 
+
+Průměrný počet zastávek autobusu: 28 zastávek, průměrná vzdálenost mezi zastávkami 550 metrů – vypočítáno na základě 10 linek MHD v Brně. Doba potřebná pro ujetí jednoho km: 97 sekund – průměrná rychlost ve větším městě: 37 km/h. 
+
+Keďže chceme simulovať pohyb ľudí čo najprirodzenejším spôsobom, lambda pre exponenciálnu pravdepodobnosť sa počíta dynamicky. Keďže je naším cieľom, aby sa prepravili všetci ľudia do konca simulácie, je potrebné obmedziť generovanie nových ľudí (procesov) a počítať s určitou rezervou. Experimentálne sme zistili, že ľudia sa musia prestať generovať približne 2 hodiny a 55 minút pred ukončením simulácie, aby záujemcovia o prepravu autobusom stihli nastúpiť ne nejaký autobus a nezostali čakať na zastávkach. Lambdou pre našu exponenciálnu funkciu je teda 75900 (počet sekúnd, vrámci ktorých sa musia vygenerovať všetci ľudia) delený celkovým počtom obyvateľov.
+
+Šanca, že daný človek vlastní auto je taktiež kalkulovaná dynamicky, aby zodpovedala zadaným vstupom. Toto percento je kalkulované ako počet všetkých áut deleno počet všetkých ľudí, to jest koľko áut pripadá na jedného človeka. Ak z pravdepodobnosti výjde, že človek má auto, musia byť stále nejaké autá dostupné, inak auto nemá. Ak aj človek auto má, rozhodne sa podľa vstupného argumentu transportRatio (defaultná hodnota je 25\%), či použije mestskú hromadnú dopravu, alebo použije svoje auto. 
+
+
+
+Časový údaj, kdy se má generovat autobus je dán číslem 79 200 vyděleným počtem autobusů, abychom docílili stavu, že se vygenerují vždy všechny autobusové okruhy s dostatečnou časovou rezervou. 
+
+Okruh je tedy vygenerován a autobus stojí v depu. Předpokládáme, že autobus je třeba nastartovat, tlakovat vzduchové okruhy a dojet na první zastávku. Pro zmíněný účel poslouží normální rozdělení se střední hodnotou 500 sekund. Autobus dojel na první zastávku a cestující nastupují. průměrný čas nastoupení jednoho cestujícího je dán normálním rozdělením se středem 2,5s. V modelu nastupuje jede pasažér po druhém. Model nereflektuje situaci, že reálný autobus má více dveří, proto je zmíněná hodnota nižší. 
+Po nastoupení a vystoupení všech cestujících se autobus rozjede na další zastávku. Doba jízdy je dána normálním rozdělením se středem 84 sekund. Autobus poté jezdí v cyklu mezi zastávkami. Na konečné zastávce jsou všichni cestující nuceni vystoupit a autobus jede zpět do depa. Dle ujeté vzdálenosti model počítá, kolik CO2 autobus/automobil vyprodukoval a číslo je přičteno k celkovému znečistění za den. Na konci simulace je vypsána statistika o celkovém znečistění.
+
+
+\section{Verifikace a experimenty}
+\subsection{Verifikace}
 \section{Závěr}
 
 \newpage

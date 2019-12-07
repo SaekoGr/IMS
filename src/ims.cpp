@@ -18,10 +18,10 @@
 
 
 
-#define DEFAULT_CARS 15000
-#define DEFAULT_BUSES 1300
-#define DEFAULT_PEOPLE 25000
-#define DEFAULT_RATIO 50
+#define DEFAULT_CARS 14000
+#define DEFAULT_BUSES 370
+#define DEFAULT_PEOPLE 250000
+#define DEFAULT_RATIO 25
 
 using namespace std;
 
