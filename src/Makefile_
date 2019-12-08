@@ -1,0 +1,4 @@
+ims: ims.cpp person.cpp person.hpp startday.cpp startday.hpp
+	g++ -std=c++11 -Wall -Wextra -pedantic -o ims ims.cpp person.cpp person.hpp startday.cpp startday.hpp -lsimlib
+run: ims
+	./ims
