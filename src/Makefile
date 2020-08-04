@@ -1,29 +1,27 @@
-.PHONY: build
-build: ims
+ims: ims.cpp Person.cpp Person.hpp StartDay.cpp StartDay.hpp
+	g++ -std=c++11 -o ims ims.cpp Person.cpp Person.hpp StartDay.cpp StartDay.hpp -lsimlib
 
-.PHONY: ims
-ims:
-	mkdir -p cmake-build-release
-	cd cmake-build-release && cmake -D CMAKE_BUILD_TYPE=Release ..
-	cmake --build cmake-build-release
+run: ims
+	./ims
 
 all: ims
-	./cmake-build-release/ims
+	
+build: ims
 
 exp: ims
-	./cmake-build-release/ims --people 250000 --buses 1300 --cars 30000 --transportRatio 15
-	./cmake-build-release/ims --people 250000 --buses 1300 --cars 30000 --transportRatio 70
-	./cmake-build-release/ims --people 250000 --buses 2000 --cars 0 --transportRatio 100
-	./cmake-build-release/ims --people 250000 --buses 1300 --cars 60000 --transportRatio 10
+	./ims --people 250000 --buses 370 --cars 60000 --transportRatio 25
+	./ims --people 250000 --buses 500 --cars 60000 --transportRatio 50
+	./ims --people 250000 --buses 800 --cars 0 --transportRatio 100
+	./ims --people 250000 --buses 370 --cars 100000 --transportRatio 25
 
-exp1: ims 
-	./cmake-build-release/ims --people 250000 --buses 1300 --cars 30000 --transportRatio 15
+exp1: ims
+	./ims --people 250000 --buses 370 --cars 60000 --transportRatio 25
 
-exp2: ims 
-	./cmake-build-release/ims --people 250000 --buses 1300 --cars 30000 --transportRatio 70
-	
+exp2: ims
+	./ims --people 250000 --buses 500 --cars 60000 --transportRatio 50
+
 exp3: ims
-	./cmake-build-release/ims --people 250000 --buses 500 --cars 0 --transportRatio 100
+	./ims --people 250000 --buses 800 --cars 0 --transportRatio 100
 
 exp4: ims
-	./cmake-build-release/ims --people 250000 --buses 1300 --cars 60000 --transportRatio 10
+	./ims --people 250000 --buses 370 --cars 100000 --transportRatio 25

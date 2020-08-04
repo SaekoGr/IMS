@@ -18,7 +18,7 @@
 
 
 
-#define DEFAULT_CARS 14000
+#define DEFAULT_CARS 60000
 #define DEFAULT_BUSES 370
 #define DEFAULT_PEOPLE 250000
 #define DEFAULT_RATIO 25
@@ -31,7 +31,7 @@ void help(){
     fprintf(stderr, "--buses to denote number of buses in a town\n");
     fprintf(stderr, "--people to denote number of people to transport\n");
     fprintf(stderr, "--transportRatio to denote the percentage of people who own cars, but are willing to use public transport\n\n");
-    fprintf(stderr, "Default arguments are 60 cars, 100 people, 10 buses and transport ratio of 25%\n\n");
+    fprintf(stderr, "Default arguments are 60 cars, 100 people, 10 buses and transport ratio of 25%%\n\n");
 }
 
 bool isIntegerNumber(char* one_argument){

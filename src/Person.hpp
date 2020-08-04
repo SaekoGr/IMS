@@ -27,7 +27,6 @@ int disembarkingPeople(unsigned int onBoard);
 
 static double hasCarRatio;
 static double availableCars;
-static float ratio;
 
 
 class Person : public Process{
@@ -56,7 +55,6 @@ class Person : public Process{
 class Bus : public Process{
     public:
         
-
         Bus();
 
         void Behavior();

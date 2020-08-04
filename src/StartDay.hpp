@@ -20,9 +20,6 @@ class StartDay : public Event
         unsigned long long int people;
         unsigned long long int cars;
         float ratio;
-        
-
-
         bool buses_generated = false;
 };
 

@@ -21,16 +21,13 @@ Stat* CarDistance;
 Stat* BusDistance;
 Stat* BusEffectivity;
 
-//Queue Q[BUS_STOPS];
-
+// create new person
 Person::Person(unsigned long long int personalNumber){
     this->personalNumber = personalNumber;
     this->needTransportTime = Time;
 }
 
-void Person::Behavior(){
-    // chance of owning a car
-    
+void Person::Behavior(){  
     // owns a car
     if((Random() < hasCarRatio) && (availableCars > 0)){
         availableCars--;
@@ -42,23 +39,27 @@ void Person::Behavior(){
             (*CarEmissions)(this->carEmission);
             (*CarDistance)(this->distanceTravelled);
             usingCar++;
-            //printf("I travelled %d km with my car and produced %.2f kg of CO2 emmissions\n", this->distanceTravelled, (this->carEmission/1000.0));
+            // finishes here
             return;
         }
-    } // does not own a car
+    } 
+    // uses public transport
     
-    // either has car and uses public transport or doesn't own a car
+    // randomly generates bust stop
     this->stopNum = generateBusStopNumber();
-    //printf("BUS STOP NUM %d\n", this->stopNum);
-    // going to the bus stop
+    // goes the the assigned bus stop
     Wait(Normal(300, 60));
 
+    // number of people who want to use the bus
     wantToUseBus++;
-    //printf("Standing at the queue: ID %d, STOP %d\n", this->personalNumber, this->stopNum);
+    // stands in queue at the given bus stop
     Q[this->stopNum].Insert(this);
     Passivate();
 }
 
+/**
+ * Return the generated bus stop
+ */
 unsigned int generateBusStopNumber(){
     int rnd = rand();
     return (rnd % (BUS_STOPS));
@@ -133,18 +134,19 @@ void output_stats(){
     printf("\n");
     printf("=================\n");
     printf("PASSENGERS DISTRIBUTION\n");
-    printf("USED THE CAR %d\n", usingCar);
-    printf("WANTED TO USE THE BUS %d\n", wantToUseBus);
-    printf("ACTUALLY USED THE BUS %d\n", gotToUseBus);
+    printf("USED THE CAR %llu\n", usingCar);
+    printf("WANTED TO USE THE BUS %llu\n", wantToUseBus);
+    printf("ACTUALLY USED THE BUS %llu\n", gotToUseBus);
 
     
     for(int i = 0; i < BUS_STOPS; i++){
         leftAtBusStop += Q[i].Length();
     }
-    printf("PEOPLE LEFT AT ANY BUS STOPS: %d\n", leftAtBusStop);
+    printf("PEOPLE LEFT AT ANY BUS STOPS: %llu\n", leftAtBusStop);
     printf("\n");
 }
 
+// calculates has car ratio : cars / people
 void calculateHasCarRatio(unsigned long long int people, unsigned long long int cars, float ratio){
     availableCars = cars;
     carRatio = ratio;
@@ -164,7 +166,6 @@ void calculateHasCarRatio(unsigned long long int people, unsigned long long int 
         }
     }
 
-    printf("Has car %f\n", hasCarRatio);
 }
 
 Bus::Bus(){
@@ -175,7 +176,6 @@ Bus::Bus(){
 
 void Bus::Behavior(){
     int to_disembark;
-    double start_time = Time;
     
     // bus goes to the first stop from the depot
     Wait(Normal(500, 100));
@@ -184,20 +184,18 @@ void Bus::Behavior(){
     for(int i = 0; i < BUS_STOPS; i++){
         // last stop before going to depot
         
-        //printf("DISEMBARKING\n");
+        // random number of people are disembarking at any given stop
         to_disembark = disembarkingPeople(this->on_board);
         // people are disembarrking
         for(int j = 0; j < to_disembark; j++){
             // people are getting off
             Wait(Normal(2.5, 0.5));
             this->on_board--;
-            
         }
 
         // passangers can board
         boarding:
         
-
         // check for more passangers that fit into the bus
         if((!(Q[i].Empty())) && this->capacity > this->on_board){
             // somebody is getting on
@@ -208,17 +206,16 @@ void Bus::Behavior(){
             Wait(Normal(2.5, 0.5));
             tmp->Activate();
             gotToUseBus++;
-            //cout << all_people << "\n";
+            // another one can board
             goto boarding;
         }
 
-        
+        // bus moves to the next bus stop
         Wait(Normal(84, 10));
         this->distanceTravelled += Normal(0.55, 0.1);
-        //printf("There are currently %d people onborad\n", this->on_board);
-        //printf("===============\n");
     }
    
+    // last stop, everyone disembarks
     while(this->on_board > 0){
         Wait(Normal(2.5, 0.5));
         this->on_board--;
@@ -228,16 +225,24 @@ void Bus::Behavior(){
     Wait(Normal(500, 100));
     this->distanceTravelled += Normal(2, 0.6);
 
-    double total_time = Time - start_time;
+    // bus has finished
     Leave(*AllBuses, 1);
+    // bus producted this amount of emissions
     this->busEmission = this->distanceTravelled * Normal(BUS_EMISSION, 10);
+
+    // calculating bus effectivity
+    double busEff = (((double) this->transportedPassangers/((double) BUS_STOPS*BUS_CAPACITY))) * 100.0;
+
+    // stats
     (*BusEmissions)(this->busEmission);
     (*BusDistance)(this->distanceTravelled);
-    double busEff = (((double) this->transportedPassangers/((double) BUS_STOPS*BUS_CAPACITY))) * 100.0;
     (*BusEffectivity)(busEff);
+
+    // add to the sum of bus emissions
     allBusEmission += this->busEmission;
 }
 
+// calculate how many people have to disembark
 int disembarkingPeople(unsigned int onBoard){
     if(onBoard == 0){
         return 0;
@@ -246,15 +251,16 @@ int disembarkingPeople(unsigned int onBoard){
     return rnd;
 }
 
+// calculates the bus interval for generating new buses
 void calculateBusInterval(unsigned long long int buses){
     bus_interval = (DAY_END - 7200)/buses;
-    printf("Bus interval %f\n", bus_interval);
 }
 
 void activateBusGenerator(unsigned long long int buses){
     // if there are no buses, generator is not needed
     calculateBusInterval(buses);
 
+    // if no buses are inputet, bus generator is not even activated
     if(buses == 0){
         return;
     }
@@ -269,17 +275,11 @@ BusGenerator::BusGenerator(unsigned long long int buses){
     this->buses = buses;
 }
 
-
 void BusGenerator::Behavior(){
-    
-    //printf("AllBus je je to %d\n", AllBuses->Capacity());
-
+    // calculates buses until it is not the end of the day - the reserve
     while(Time < 76400){
         Enter(*AllBuses, 1);
         (new Bus())->Activate();
         Wait(Exponential(bus_interval));
     }
-    //printf("Generating %llu. th person\n", this->people);
-    // new person appears every 60 seconds
-    
 }

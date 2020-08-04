@@ -12,14 +12,14 @@ StartDay::StartDay(unsigned long long int buses, unsigned long long int people, 
     this->ratio = ratio;
 }
 
+// calculates the interval of generating new people 
 void calculate_req_interval(unsigned long long int people){
     reg_interval = ((double) (DAY_END - (10500))) / people;
 }
 
 void StartDay::Behavior(){
-    // generate buses
+    // generates buses, activates bus generator and the interval
     if(!this->buses_generated){
-        //printf("\nGenereting %llu buses\n\n", this->buses);
         calculateHasCarRatio(this->people, this->cars, this->ratio);
         activateBusGenerator(this->buses);
         this->buses_generated = true;
